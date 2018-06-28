@@ -1,0 +1,51 @@
+{
+  "extends": [
+    "standard",
+    "react-app"
+  ],
+  "plugins": [
+    "standard",
+    "react"
+  ],
+  "globals": {
+    "window": true
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true,
+      "arrowFunctions": true,
+      "classes": true
+    },
+    "env": {
+      "es6": true
+    }
+  },
+  "rules": {
+    "semi": ["error", "never"],
+    "comma-dangle": ["error", "always-multiline"],
+    "no-console": "warn",
+    "no-extra-semi": "warn",
+    "no-var": "error",
+    "space-before-function-paren": ["error", {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    }],
+    "object-curly-spacing": ["error", "always"],
+    "jsx-a11y/href-no-hash": "off",
+    "react/jsx-uses-vars": [2],
+    "react/self-closing-comp": ["error", {
+      "component": true,
+      "html": true
+    }],
+    "react/jsx-indent": [2, 2],
+    "react/jsx-indent-props": [2, 2],
+    "react/jsx-no-bind": [2, {
+      "ignoreRefs": false,
+      "allowArrowFunctions": true,
+      "allowFunctions": true,
+      "allowBind": false
+    }]
+  }
+}
