@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Layout, Menu, Icon } from 'antd'
+import { Layout, Menu, Icon, BackTop } from 'antd'
 
 import './style.css'
 
@@ -53,6 +53,7 @@ export default class PageLayout extends React.PureComponent {
             {this.props.children}
           </Content>
         </Layout>
+        <BackTop />
       </Layout>
     )
   }

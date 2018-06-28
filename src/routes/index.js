@@ -8,6 +8,13 @@ export default [
   },
   {
     path: '/github',
+    exact: true,
     component: AsyncComponent(() => import('../pages/Github')),
+  },
+  {
+    path: '*',
+    exact: true,
+    empty: true,
+    component: AsyncComponent(() => import('../pages/NotFound')),
   },
 ]
