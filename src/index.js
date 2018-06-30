@@ -6,6 +6,8 @@ import store from './store'
 
 import App from './pages/App'
 
+import './pages/styles/base.css'
+
 import registerServiceWorker from './registerServiceWorker'
 
 ReactDOM.render(

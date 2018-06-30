@@ -8,6 +8,14 @@ export const saveUser = ({ token, ...userData } = {}) => {
   localStorage[KEY_LOCAL.USER_TOKEN] = token
 }
 
+export const getUser = ({ token, ...userData } = {}) => (
+  JSON.parse(decodeURIComponent(localStorage[KEY_LOCAL.USER_DATA] || '{}'))
+)
+
+export const isLoggin = ({ token, ...userData } = {}) => (
+  !!localStorage[KEY_LOCAL.USER_TOKEN]
+)
+
 export const clearUser = () => {
   delete localStorage[KEY_LOCAL.USER_DATA]
   delete localStorage[KEY_LOCAL.USER_TOKEN]

@@ -5,10 +5,10 @@ export const githubUser = initModel('githubUser', {
   action: 'getUser',
   reset: 'resetUser',
   payload: {
-    userId: null,
+    userId: undefined,
   },
   response: {
-    data: null,
+    data: undefined,
   },
   reducer: response => ({ data: response.data }),
   effect: async ({ userId } = {}) => {
@@ -24,10 +24,10 @@ export const githubRepos = initModel('githubRepos', {
   action: 'getRepos',
   reset: 'resetRepos',
   payload: {
-    userId: null,
+    userId: undefined,
   },
   response: {
-    data: null,
+    data: undefined,
   },
   reducer: response => ({ data: response.data }),
   effect: async ({ owner, project } = {}) => {

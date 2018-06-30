@@ -12,6 +12,7 @@
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "immutable": "^3.8.2",
+    "moment": "^2.22.2",
     "object-assign": "4.1.1",
     "promise": "8.0.1",
     "react": "^16.4.1",

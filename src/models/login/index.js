@@ -5,12 +5,12 @@ export const login = initModel('login', {
   action: 'doLogin',
   reset: 'resetLogin',
   payload: {
-    username: null,
-    password: null,
+    username: undefined,
+    password: undefined,
     remember: false,
   },
   response: {
-    data: null,
+    data: undefined,
   },
   reducer: response => ({ data: response.data }),
   effect: async ({ username, password, remember } = {}) => {
@@ -25,6 +25,7 @@ export const login = initModel('login', {
       data: {
         name: '管理员',
         uid: 'admin',
+        avatar: 'https://avatars3.githubusercontent.com/u/3406222?s=40&v=4',
         token: 'XXXX-YYYY-ZZZZ-HAHA',
       },
     }
