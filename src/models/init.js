@@ -30,7 +30,7 @@ export default (namespace, {
     state: {
       payload: fromJS(payload),
       response: fromJS(response),
-      error: undefined,
+      error: null,
       pending: false,
     },
     reducers: {
@@ -59,7 +59,7 @@ export default (namespace, {
         return {
           ...state,
           pending: false,
-          error: undefined,
+          error: null,
           payload: state.payload.clear(),
           response: state.response.clear(),
         }
@@ -82,7 +82,7 @@ export default (namespace, {
         } catch (error) {
           dispatch({
             type: actionTypes[ActionTypes.FAILURE],
-            payload: error.toString(),
+            payload: error.message || '接口调用失败',
           })
         }
       },

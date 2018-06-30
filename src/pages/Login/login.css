@@ -1,0 +1,23 @@
+.login-body {
+  background: #fff url("https://s1.ax1x.com/2018/06/30/PFLxwq.jpg") no-repeat center / cover;
+}
+
+.login {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form {
+  max-width: 300px;
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.login-form-button {
+  width: 100%;
+  height: 40px;
+}
