@@ -9,7 +9,7 @@ import BaseComponent from '../../components/BaseComponent'
 // utils
 import { saveUser } from '../../utils/user'
 
-import './login.css'
+import style from './login.css'
 
 const FormItem = Form.Item
 
@@ -38,11 +38,11 @@ export default class Login extends BaseComponent {
   }
 
   componentDidMount() {
-    document.body.classList.add('login-body')
+    document.body.classList.add(style['login-body'])
   }
 
   componentWillUnmount() {
-    document.body.classList.remove('login-body')
+    document.body.classList.remove(style['login-body'])
   }
 
   handleSubmit = (e) => {
@@ -58,8 +58,8 @@ export default class Login extends BaseComponent {
     const { getFieldDecorator } = this.props.form
     const { pending } = this.props.loginState
     return (
-      <div className="login">
-        <Form onSubmit={this.handleSubmit} className="login-form">
+      <div className={style.login}>
+        <Form onSubmit={this.handleSubmit} className={style['login-form']}>
           <FormItem>
             {getFieldDecorator('username', {
               rules: [{ required: true, message: 'Please input your username!' }],
@@ -90,11 +90,11 @@ export default class Login extends BaseComponent {
             })(
               <Checkbox>Remember me</Checkbox>
             )}
-            <a className="login-form-forgot" href="">Forgot password</a>
+            <a className={style['login-form-forgot']} href="">Forgot password</a>
             <Button
               type="primary"
               htmlType="submit"
-              className="login-form-button"
+              className={style['login-form-button']}
               disabled={pending}
               loading={pending}
             >

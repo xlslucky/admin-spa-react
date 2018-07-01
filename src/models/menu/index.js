@@ -15,25 +15,30 @@ export const menu = initModel('menu', {
       data: [
         {
           name: 'Home',
+          id: 101,
           url: '/',
           icon: 'home',
         },
         {
           name: 'Github',
+          id: 102,
           url: '/github',
           icon: 'github',
         },
         {
           name: 'Users',
+          id: 103,
           url: '/users',
           icon: 'user',
         },
         {
           name: 'Settings',
+          id: 104,
           icon: 'setting',
           children: [
             {
               name: 'Menu',
+              id: 10401,
               url: '/setting/menu',
             },
           ],

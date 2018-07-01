@@ -2,7 +2,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.page-header {
+:global(.page-header) {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -12,10 +12,10 @@ body {
   border-bottom: 1px solid #eee;
 }
 
-.page-header h3 {
+:global(.page-header h3) {
   margin: 0;
 }
 
-.page-operates .ant-btn + .ant-btn {
+:global(.page-operates .ant-btn + .ant-btn) {
   margin-left: 20px;
 }

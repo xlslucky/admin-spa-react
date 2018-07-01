@@ -5,7 +5,7 @@ import { Layout, Menu, Icon, BackTop, Avatar, Dropdown } from 'antd'
 
 import { getUser, clearUser } from '../../utils/user'
 
-import './style.css'
+import style from './style.css'
 
 const { Header, Sider, Content } = Layout
 
@@ -87,7 +87,7 @@ export default class PageLayout extends React.PureComponent {
           collapsible
           collapsed={this.state.collapsed}
         >
-          <div className="logo">后台管理系统</div>
+          <div className={style.logo}>后台管理系统</div>
           <Menu theme="dark" mode="inline" defaultSelectedKeys={[first.name]}>
             {
               menu.map(this.renderMenu)
@@ -95,9 +95,9 @@ export default class PageLayout extends React.PureComponent {
           </Menu>
         </Sider>
         <Layout>
-          <Header className="headerbar">
+          <Header className={style.headerbar}>
             <Icon
-              className="trigger"
+              className={style.trigger}
               type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={this.toggle}
             />
@@ -115,7 +115,7 @@ export default class PageLayout extends React.PureComponent {
               <Avatar size="large" src={user.avatar} />
             </Dropdown>
           </Header>
-          <Content className="page-content" style={{ minHeight: this.state.bodyHeight }}>
+          <Content className={style['page-content']} style={{ minHeight: this.state.bodyHeight }}>
             {this.props.children}
           </Content>
         </Layout>
