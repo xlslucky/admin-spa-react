@@ -7,6 +7,8 @@ import moment from 'moment'
 import BaseComponent from '../../components/BaseComponent'
 import PageHeader from '../../components/PageHeader'
 
+const Title = '用户列表'
+
 @connect(
   state => ({
     usersRes: state.users.response.toJS(),
@@ -82,7 +84,8 @@ export default class Users extends BaseComponent {
     } = this.props
     return (
       <div>
-        <PageHeader title="用户列表">
+        {this.renderTitle(Title)}
+        <PageHeader title={Title}>
           <Button type="primary" onClick={this.addUser}><Icon type="plus" /> 添加用户</Button>
         </PageHeader>
         <Spin spinning={usersState.pending}>

@@ -6,6 +6,8 @@ import moment from 'moment'
 import BaseComponent from '../../components/BaseComponent'
 import PageHeader from '../../components/PageHeader'
 
+const Title = '用户详情'
+
 @connect(
   state => ({
     userRes: state.userDetail.response.toJS(),
@@ -47,7 +49,8 @@ export default class UserDetail extends BaseComponent {
     } = this.props
     return (
       <div>
-        <PageHeader title="用户详情" />
+        {this.renderTitle(Title)}
+        <PageHeader title={Title} />
         <Spin spinning={userState.pending}>
           <Form>
             <Form.Item

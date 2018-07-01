@@ -5,6 +5,8 @@ import { Form, Button, Input, InputNumber, message } from 'antd'
 import BaseComponent from '../../components/BaseComponent'
 import PageHeader from '../../components/PageHeader'
 
+const Title = '新建/编辑用户'
+
 @Form.create()
 @connect(
   state => ({
@@ -80,7 +82,8 @@ export default class UserEdit extends BaseComponent {
 
     return (
       <div>
-        <PageHeader title="新建/编辑用户" />
+        {this.renderTitle(Title)}
+        <PageHeader title={Title} />
         <Form onSubmit={this.handleSubmit}>
           <Form.Item
             {...this.formItemLayout}

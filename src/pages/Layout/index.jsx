@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Layout, Menu, Icon, BackTop, Avatar, Dropdown } from 'antd'
 
-import { getUser } from '../../utils/user'
+import { getUser, clearUser } from '../../utils/user'
 
 import './style.css'
 
@@ -34,6 +34,11 @@ export default class PageLayout extends React.PureComponent {
     this.setState({
       collapsed: !this.state.collapsed,
     })
+  }
+
+  doLogout = () => {
+    clearUser()
+    window.location.replace('/login')
   }
 
   renderMenuItem(menu) {

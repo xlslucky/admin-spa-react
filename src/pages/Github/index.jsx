@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, Card, Alert, Button, Input, Spin } from 'antd'
 
+import BaseComponent from '../../components/BaseComponent'
+
 @connect(
   state => ({
     userResp: state.githubUser.response.toJS(),
@@ -17,7 +19,7 @@ import { Row, Col, Card, Alert, Button, Input, Spin } from 'antd'
     resetRepos: dispatch.githubRepos.resetRepos,
   })
 )
-export default class Github extends React.PureComponent {
+export default class Github extends BaseComponent {
   searchUser = (userId) => {
     this.props.getUser({ userId })
   }
@@ -41,6 +43,7 @@ export default class Github extends React.PureComponent {
     return (
       <Row gutter={20} style={{ width: 600 }}>
         <Col span={12}>
+          {this.renderTitle('Github Demo')}
           <h3>
             Select Github User &nbsp;
             <Button size="small" onClick={this.props.resetUser}>Reset</Button>
