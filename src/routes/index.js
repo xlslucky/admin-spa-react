@@ -1,5 +1,8 @@
 import AsyncComponent from './AsyncComponent'
 
+import user from './user'
+import setting from './setting'
+
 export default [
   {
     path: '/',
@@ -17,21 +20,8 @@ export default [
     empty: true, // 空Layout
     component: AsyncComponent(() => import('../pages/Login')),
   },
-  {
-    path: '/users',
-    exact: true,
-    component: AsyncComponent(() => import('../pages/Users')),
-  },
-  {
-    path: '/user/edit/:userId',
-    exact: true,
-    component: AsyncComponent(() => import('../pages/Users/UserEdit')),
-  },
-  {
-    path: '/user/:userId',
-    exact: true,
-    component: AsyncComponent(() => import('../pages/Users/UserDetail')),
-  },
+  ...setting,
+  ...user,
   {
     path: '*',
     exact: true,

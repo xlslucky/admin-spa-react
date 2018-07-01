@@ -65,7 +65,7 @@ export default class PageLayout extends React.PureComponent {
       return (
         <Menu.SubMenu
           key={menu.name}
-          title={<span><Icon type="mail" /> {menu.name}</span>}
+          title={<span><Icon type="mail" />{menu.name}</span>}
         >
           {menu.children.map(this.renderMenuItem)}
         </Menu.SubMenu>
