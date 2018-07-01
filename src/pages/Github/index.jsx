@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Row, Col, Card, Alert, Button, Input, Spin } from 'antd'
 
 import BaseComponent from '../../components/BaseComponent'
+import PageHeader from '../../components/PageHeader'
 
 @connect(
   state => ({
@@ -41,54 +42,57 @@ export default class Github extends BaseComponent {
       reposState,
     } = this.props
     return (
-      <Row gutter={20} style={{ width: 600 }}>
-        <Col span={12}>
-          {this.renderTitle('Github Demo')}
-          <h3>
-            Select Github User &nbsp;
-            <Button size="small" onClick={this.props.resetUser}>Reset</Button>
-          </h3>
-          <Input.Search
-            style={{ marginBottom: 20 }}
-            placeholder="Input User Id"
-            onSearch={this.searchUser}
-          />
+      <div>
+        {this.renderTitle('Github')}
+        <PageHeader title="Github" />
+        <Row gutter={20} style={{ width: 600 }}>
+          <Col span={12}>
+            <h3>
+              Select Github User &nbsp;
+              <Button size="small" onClick={this.props.resetUser}>Reset</Button>
+            </h3>
+            <Input.Search
+              style={{ marginBottom: 20 }}
+              placeholder="Input User Id"
+              onSearch={this.searchUser}
+            />
 
-          <Spin spinning={userState.pending}>
-            {
-              user ? (
-                <Card
-                  cover={<img alt={user.name} src={user.avatar_url} />}
-                >
-                  <Card.Meta
-                    title={user.name}
-                    description={<a href={user.blog}>{user.blog}</a>}
-                  />
-                </Card>
-              ) : <Alert type={userState.error ? 'error' : 'info'} message={userState.error || 'Input User Id.'} />
-            }
-          </Spin>
-        </Col>
-        <Col span={12}>
-          <h3>
-            Select Current User Repos &nbsp;
-            <Button size="small" onClick={this.props.resetRepos}>Reset</Button>
-          </h3>
-          <Input.Search
-            style={{ marginBottom: 20 }}
-            placeholder="Input Repos"
-            onSearch={this.searchRepos}
-          />
+            <Spin spinning={userState.pending}>
+              {
+                user ? (
+                  <Card
+                    cover={<img alt={user.name} src={user.avatar_url} />}
+                  >
+                    <Card.Meta
+                      title={user.name}
+                      description={<a href={user.blog}>{user.blog}</a>}
+                    />
+                  </Card>
+                ) : <Alert type={userState.error ? 'error' : 'info'} message={userState.error || 'Input User Id.'} />
+              }
+            </Spin>
+          </Col>
+          <Col span={12}>
+            <h3>
+              Select Current User Repos &nbsp;
+              <Button size="small" onClick={this.props.resetRepos}>Reset</Button>
+            </h3>
+            <Input.Search
+              style={{ marginBottom: 20 }}
+              placeholder="Input Repos"
+              onSearch={this.searchRepos}
+            />
 
-          <Spin spinning={reposState.pending}>
-            {
-              repos ? (
-                <div>{repos.description}</div>
-              ) : <Alert type={reposState.error ? 'error' : 'info'} message={reposState.error || 'Input User Id.'} />
-            }
-          </Spin>
-        </Col>
-      </Row>
+            <Spin spinning={reposState.pending}>
+              {
+                repos ? (
+                  <div>{repos.description}</div>
+                ) : <Alert type={reposState.error ? 'error' : 'info'} message={reposState.error || 'Input User Id.'} />
+              }
+            </Spin>
+          </Col>
+        </Row>
+      </div>
     )
   }
 }

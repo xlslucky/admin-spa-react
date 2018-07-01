@@ -9,11 +9,23 @@
   padding-left: 24px;
 }
 
+.menu-item {
+  list-style: none;
+}
+
+.operate {
+  align-content: flex-end;
+}
+
 .menu-item-detail {
   position: relative;
   display: flex;
   align-items: center;
-  height: 50px;
+  margin-bottom: 10px;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
 }
 
 .toggle {
@@ -26,5 +38,15 @@
 }
 
 .menu-url {
+  flex: 1;
+  color: #198eff;
+}
+
+.operate :global(.anticon) {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.operate :global(.anticon):hover {
   color: #198eff;
 }

@@ -2,6 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Icon } from 'antd'
+import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc'
 
 // components
 import BaseComponent from '../../../components/BaseComponent'
@@ -10,6 +11,22 @@ import PageHeader from '../../../components/PageHeader'
 import style from './style.css'
 
 const Title = '菜单设置'
+
+const SortableItem = SortableElement(({ children }) =>
+  <li className={style['menu-item']}>
+    {children}
+  </li>
+)
+
+const SortableList = SortableContainer(({ items, className, renderItem }) => (
+  <ul className={className}>
+    {items.map((data, index) => (
+      <SortableItem key={`item-${index}`} index={index}>
+        {renderItem(data)}
+      </SortableItem>
+    ))}
+  </ul>
+))
 
 @connect(
   state => ({
@@ -20,48 +37,81 @@ const Title = '菜单设置'
   })
 )
 export default class MenuSetting extends BaseComponent {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!prevState.moved) {
+      return {
+        menu: nextProps.menuRes.data || [],
+      }
+    }
+    return null
+  }
+
+  state = {
+    menu: [],
+    moved: false,
+  }
+
   componentDidMount() {
     this.props.getMenu()
   }
 
-  renderMenu = (menu) => {
-    const { children = [], name, url, icon } = menu
-    return (
-      <li className={style['menu-group']} key={menu.id}>
-        <div className={style['menu-item-detail']}>
-          <Icon type="down" className={style.toggle} />
-          <Icon type={icon || 'compass'} />
-          <span className={style['menu-name']}>{name}</span>
-          <span className={style['menu-url']}>{url}</span>
-        </div>
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    this.setState({
+      moved: true,
+      menu: arrayMove(this.state.menu, oldIndex, newIndex),
+    }, this.forceUpdate)
+  }
 
-        <ul className={style['menu-items']}>
-          {
-            children.map(item => (
-              <li className={style['menu-item']} key={item.id}>
-                <div className={style['menu-item-detail']}>
-                  <Icon type={item.icon || 'compass'} />
-                  <span className={style['menu-name']}>{item.name}</span>
-                  <span className={style['menu-url']}>{item.url}</span>
-                </div>
-              </li>
-            ))
-          }
-        </ul>
-      </li>
-    )
+  onChildrenSortEnd = menu => () => {
+
   }
 
   render() {
-    const { data: menu = [] } = this.props.menuRes
+    const { menu } = this.state
     return (
       <div>
         {this.renderTitle(Title)}
         <PageHeader title={Title} />
 
-        <ul className={style['menu-setting']}>
-          {menu.map(this.renderMenu)}
-        </ul>
+        <SortableList
+          items={menu}
+          className={style['menu-setting']}
+          onSortEnd={this.onSortEnd}
+          renderItem={menu => (
+            <React.Fragment>
+              <div className={style['menu-item-detail']}>
+                <Icon type="down" className={style.toggle} />
+                <Icon type={menu.icon || 'compass'} />
+                <span className={style['menu-name']}>{menu.name}</span>
+                <span className={style['menu-url']}>{menu.url}</span>
+                <span className={style.operate}>
+                  <Icon type="plus" />
+                  <Icon type="edit" />
+                  <Icon type="delete" />
+                </span>
+              </div>
+
+              <SortableList
+                items={menu.children || []}
+                className={style['menu-items']}
+                onSortEnd={this.onChildrenSortEnd(menu)}
+                renderItem={item => (
+                  <React.Fragment>
+                    <div className={style['menu-item-detail']}>
+                      <Icon type={item.icon || 'compass'} />
+                      <span className={style['menu-name']}>{item.name}</span>
+                      <span className={style['menu-url']}>{item.url}</span>
+                      <span className={style.operate}>
+                        <Icon type="edit" />
+                        <Icon type="delete" />
+                      </span>
+                    </div>
+                  </React.Fragment>
+                )}
+              />
+            </React.Fragment>
+          )}
+        />
       </div>
     )
   }

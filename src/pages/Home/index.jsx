@@ -5,9 +5,8 @@ import BaseComponent from '../../components/BaseComponent'
 export default class Home extends BaseComponent {
   render() {
     return (
-      <div>
+      <div style={{ paddingTop: 24 }}>
         {this.renderTitle('后台管理系统')}
-
         <h3>Home</h3>
       </div>
     )
