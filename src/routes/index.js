@@ -18,6 +18,7 @@ export default [
     path: '/login',
     exact: true,
     empty: true, // 空Layout
+    public: true,
     component: AsyncComponent(() => import('../pages/Login')),
   },
   ...setting,
@@ -26,6 +27,7 @@ export default [
     path: '*',
     exact: true,
     empty: true,
+    public: true,
     component: AsyncComponent(() => import('../pages/NotFound')),
   },
 ]

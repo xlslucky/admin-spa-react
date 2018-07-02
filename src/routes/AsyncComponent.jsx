@@ -17,7 +17,12 @@ export default loader => Loadable({
   loading: LoadingComponent,
   render(loaded, props) {
     const Component = loaded.default
-    if (props.route.empty) {
+    const { public: pub, empty } = props.route
+    if (!pub && !props.user) {
+      const originalUrl = encodeURIComponent(`${props.location.pathname}${props.location.search}`)
+      return window.location.replace(`/login?originalUrl=${originalUrl}`)
+    }
+    if (empty) {
       return <Component {...props} />
     }
     return <Layout><Component {...props} /></Layout>

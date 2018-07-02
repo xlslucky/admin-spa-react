@@ -1,5 +1,19 @@
 import initModel from '../init'
 import { delay } from '../../utils/fetch'
+import { getUser } from '../../utils/user'
+
+export const loginUser = {
+  state: {
+    user: getUser(),
+  },
+  reducers: {
+    update() {
+      return {
+        user: getUser(),
+      }
+    },
+  },
+}
 
 export const login = initModel('login', {
   action: 'doLogin',

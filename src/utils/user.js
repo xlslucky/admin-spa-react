@@ -9,7 +9,9 @@ export const saveUser = ({ token, ...userData } = {}) => {
 }
 
 export const getUser = ({ token, ...userData } = {}) => (
-  JSON.parse(decodeURIComponent(localStorage[KEY_LOCAL.USER_DATA] || '{}'))
+  localStorage[KEY_LOCAL.USER_DATA]
+    ? JSON.parse(decodeURIComponent(localStorage[KEY_LOCAL.USER_DATA] || '{}'))
+    : null
 )
 
 export const isLoggin = ({ token, ...userData } = {}) => (

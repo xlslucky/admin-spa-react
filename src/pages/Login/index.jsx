@@ -24,16 +24,13 @@ const FormItem = Form.Item
   })
 )
 export default class Login extends BaseComponent {
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   return null
-  // }
-
   componentDidUpdate(prevProps) {
     this.whenFetched(prevProps.loginState, this.props.loginState)
       .then(() => {
         const { data = {} } = this.props.loginRes
+        const { query = {} } = this.props
         saveUser(data)
-        window.location.replace('/')
+        window.location.replace(query.originalUrl || '/')
       })
   }
 
