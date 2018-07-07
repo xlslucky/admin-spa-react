@@ -6,8 +6,8 @@ const router = express.Router()
 
 router.get('/api/*', async (req, res) => {
   try {
-    const response = request({ req })
-    res.send(response)
+    const response = await request({ req })
+    res.send(response.data)
   } catch (error) {
     res.send({
       errorCode: 500,
@@ -16,10 +16,10 @@ router.get('/api/*', async (req, res) => {
   }
 })
 
-router.post('/api/*', (req, res) => {
+router.post('/api/*', async (req, res) => {
   try {
-    const response = request({ req, method: 'POST', data: req.body })
-    res.send(response)
+    const response = await request({ req, method: 'POST', data: req.body })
+    res.send(response.data)
   } catch (error) {
     res.send({
       errorCode: 500,
