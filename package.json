@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js"
+    "build": "node scripts/build.js",
+    "serve": "node server/bin/www"
   },
   "dependencies": {
     "@rematch/core": "^1.0.0-beta.4",
@@ -11,8 +12,15 @@
     "antd": "^3.6.4",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "debug": "^3.1.0",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "http-errors": "^1.6.3",
     "immutable": "^3.8.2",
     "moment": "^2.22.2",
+    "morgan": "^1.9.0",
     "object-assign": "4.1.1",
     "promise": "8.0.1",
     "query-string": "^6.1.0",
@@ -26,6 +34,7 @@
     "react-router-dom": "^4.3.1",
     "react-sortable-hoc": "^0.8.3",
     "redux": "^4.0.0",
+    "request-ip": "^2.1.1",
     "resolve": "1.6.0"
   },
   "devDependencies": {
