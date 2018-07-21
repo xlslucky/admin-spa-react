@@ -14,10 +14,10 @@ import PageHeader from '../../components/PageHeader'
     reposState: state.githubRepos,
   }),
   dispatch => ({
-    getUser: dispatch.githubUser.getUser,
-    resetUser: dispatch.githubUser.resetUser,
-    getRepos: dispatch.githubRepos.getRepos,
-    resetRepos: dispatch.githubRepos.resetRepos,
+    getUser: dispatch.githubUser.request,
+    resetUser: dispatch.githubUser.reset,
+    getRepos: dispatch.githubRepos.request,
+    resetRepos: dispatch.githubRepos.reset,
   })
 )
 export default class Github extends BaseComponent {
@@ -41,6 +41,7 @@ export default class Github extends BaseComponent {
       userState,
       reposState,
     } = this.props
+    console.log(this.props.userResp)
     return (
       <div>
         {this.renderTitle('Github')}

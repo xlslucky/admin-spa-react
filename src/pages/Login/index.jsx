@@ -20,7 +20,7 @@ const FormItem = Form.Item
     loginState: state.login,
   }),
   dispatch => ({
-    login: dispatch.login.doLogin,
+    login: dispatch.login.request,
   })
 )
 export default class Login extends BaseComponent {

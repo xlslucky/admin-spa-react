@@ -2,15 +2,13 @@ import initModel from '../init'
 import fetch from '../../utils/fetch'
 
 export const githubUser = initModel('githubUser', {
-  action: 'getUser',
-  reset: 'resetUser',
   payload: {
     userId: undefined,
   },
   response: {
     data: undefined,
   },
-  reducer: response => ({ data: response.data }),
+  reducer: response => ({ data: response }),
   effect: async ({ userId } = {}) => {
     if (!userId) {
       throw new Error('userId is undefined')
@@ -21,15 +19,13 @@ export const githubUser = initModel('githubUser', {
 })
 
 export const githubRepos = initModel('githubRepos', {
-  action: 'getRepos',
-  reset: 'resetRepos',
   payload: {
     userId: undefined,
   },
   response: {
     data: undefined,
   },
-  reducer: response => ({ data: response.data }),
+  reducer: response => ({ data: response }),
   effect: async ({ owner, project } = {}) => {
     if (!owner || !project) {
       throw new Error('400 Bad Request.')

@@ -24,9 +24,9 @@ export default ({ url, method = 'GET', data }) => axios({
   url: /^https?:/.test(url) ? url : `${API_PREFIX}${url}`,
   method,
   data,
-  headers: {
-    'u-token': getToken() || undefined,
-  },
+  // headers: {
+  //   'u-token': getToken() || undefined,
+  // },
 }).then((response) => {
   const { data } = response
   if (data.status === 401) {

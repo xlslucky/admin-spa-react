@@ -16,8 +16,8 @@ const Title = '新建/编辑用户'
     userSaveState: state.userEdit,
   }),
   dispatch => ({
-    getUser: dispatch.userDetail.getUser,
-    saveUser: dispatch.userEdit.saveUser,
+    getUser: dispatch.userDetail.request,
+    saveUser: dispatch.userEdit.request,
   })
 )
 export default class UserEdit extends BaseComponent {

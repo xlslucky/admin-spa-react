@@ -16,8 +16,8 @@ const Title = '用户列表'
     userDeleteState: state.userDelete,
   }),
   dispatch => ({
-    getUsers: dispatch.users.getUserPage,
-    removeUser: dispatch.userDelete.removeUser,
+    getUsers: dispatch.users.request,
+    removeUser: dispatch.userDelete.request,
   })
 )
 export default class Users extends BaseComponent {

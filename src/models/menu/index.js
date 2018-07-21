@@ -2,9 +2,6 @@ import initModel from '../init'
 import { delay } from '../../utils/fetch'
 
 export const menu = initModel('menu', {
-  action: 'getMenu',
-  reset: 'resetMenu',
-  payload: {},
   response: {
     data: undefined,
   },

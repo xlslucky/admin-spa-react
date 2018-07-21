@@ -17,14 +17,11 @@ const createActionType = namespace =>
   }), {})
 
 export default (namespace, {
-  action,
-  reset,
-  store,
-  payload = {},
-  response = {},
-  reducer = () => {},
-  effect = () => {},
-  // selectors,
+  store, // 是否存储payload
+  payload = {}, // 入参
+  response = {}, // 出参
+  reducer = response => response, // 数据转换
+  effect = payload => ({}), // 数据抓取
 }) => {
   const actionTypes = createActionType(namespace)
 
@@ -68,7 +65,7 @@ export default (namespace, {
       },
     },
     effects: dispatch => ({
-      async [action](payload = {}, state) {
+      async request(payload = {}, state) {
         let nextPayload = fromJS(payload)
         if (store) {
           nextPayload = fromJS({ ...state[namespace].payload.toJS(), ...payload })
@@ -106,7 +103,7 @@ export default (namespace, {
           })
         }
       },
-      [reset]() {
+      reset() {
         dispatch({
           type: actionTypes[ActionTypes.RESET],
         })

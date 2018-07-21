@@ -13,8 +13,6 @@ let Users = new Array(20).join(',').split(',').map((item, index) => ({
 }))
 
 export const users = initModel('users', {
-  action: 'getUserPage',
-  reset: 'resetUserPage',
   payload: {
     pageNo: undefined,
     pageSize: undefined,
@@ -28,26 +26,27 @@ export const users = initModel('users', {
   effect: async () => {
     await delay()
     return {
-      list: Users,
-      pageInfo: {
-        pageNo: 1,
-        pageSize: 20,
-        totalPages: 10,
-        total: 190,
+      data: {
+        list: Users,
+        pageInfo: {
+          pageNo: 1,
+          pageSize: 20,
+          totalPages: 10,
+          total: 190,
+        },
       },
     }
   },
 })
 
 export const userDelete = initModel('userDelete', {
-  action: 'removeUser',
   payload: {
     userId: undefined,
   },
   response: {
     data: undefined,
   },
-  reducer: response => ({ data: response.data }),
+  reducer: response => ({ data: response }),
   effect: async ({ userId }) => {
     if (!userId) {
       throw new Error('parameter userId is required.')
@@ -63,15 +62,13 @@ export const userDelete = initModel('userDelete', {
 })
 
 export const userDetail = initModel('userDetail', {
-  action: 'getUser',
-  reset: 'resetUser',
   payload: {
     userId: undefined,
   },
   response: {
     data: undefined,
   },
-  reducer: response => ({ data: response.data }),
+  reducer: response => ({ data: response }),
   effect: async ({ userId }) => {
     if (!userId) {
       throw new Error('parameter userId is required.')
@@ -88,7 +85,6 @@ export const userDetail = initModel('userDetail', {
 })
 
 export const userEdit = initModel('userEdit', {
-  action: 'saveUser',
   payload: {
     uid: undefined,
     name: undefined,
@@ -98,7 +94,7 @@ export const userEdit = initModel('userEdit', {
   response: {
     data: undefined,
   },
-  reducer: response => ({ data: response.data }),
+  reducer: response => ({ data: response }),
   effect: async ({ uid, name, age, city }) => {
     await delay()
     if (uid) {

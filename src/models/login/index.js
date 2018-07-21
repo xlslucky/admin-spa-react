@@ -16,8 +16,6 @@ export const loginUser = {
 }
 
 export const login = initModel('login', {
-  action: 'doLogin',
-  reset: 'resetLogin',
   payload: {
     username: undefined,
     password: undefined,
@@ -26,8 +24,7 @@ export const login = initModel('login', {
   response: {
     data: undefined,
   },
-  reducer: response => response,
-  effect: async ({ username, password, remember } = {}) => {
+  effect: async ({ username, password } = {}) => {
     if (!username || !password) {
       throw new Error('400 Bad Request.')
     }

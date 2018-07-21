@@ -19,7 +19,7 @@ const defaultAvatar = 'https://s1.ax1x.com/2018/07/07/PeZcQS.png'
     menuState: state.menu,
   }),
   dispatch => ({
-    getMenu: dispatch.menu.getMenu,
+    getMenu: dispatch.menu.request,
   })
 )
 export default class PageLayout extends BaseComponent {
@@ -130,8 +130,6 @@ export default class PageLayout extends BaseComponent {
   render() {
     const { data: menu = [] } = this.props.menuRes
     const user = getUser()
-    /* eslint-disable no-console */
-    console.log(menu, user)
 
     return (
       <Layout>

@@ -14,7 +14,7 @@ const Title = '用户详情'
     userState: state.userDetail,
   }),
   dispatch => ({
-    getUser: dispatch.userDetail.getUser,
+    getUser: dispatch.userDetail.request,
   })
 )
 export default class UserDetail extends BaseComponent {

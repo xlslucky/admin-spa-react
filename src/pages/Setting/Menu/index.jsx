@@ -33,7 +33,7 @@ const SortableList = SortableContainer(({ items, className, renderItem }) => (
     menuRes: state.menu.response.toJS(),
   }),
   dispatch => ({
-    getMenu: dispatch.menu.getMenu,
+    getMenu: dispatch.menu.request,
   })
 )
 export default class MenuSetting extends BaseComponent {
