@@ -41,7 +41,6 @@ export default class Github extends BaseComponent {
       userState,
       reposState,
     } = this.props
-    console.log(this.props.userResp)
     return (
       <div>
         {this.renderTitle('Github')}
