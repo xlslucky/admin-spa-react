@@ -104,6 +104,12 @@ module.exports = {
       new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
     ],
   },
+  externals: {
+    react: 'window.React',
+    moment: 'window.moment',
+    immutable: 'window.Immutable',
+    'react-dom': 'window.ReactDOM',
+  },
   module: {
     strictExportPresence: true,
     rules: [

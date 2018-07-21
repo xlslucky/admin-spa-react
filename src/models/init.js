@@ -1,4 +1,5 @@
 import { fromJS } from 'immutable'
+import { message } from 'antd'
 
 const ActionTypes = {
   PENDING: 'PENDING',
@@ -18,6 +19,7 @@ const createActionType = namespace =>
 export default (namespace, {
   action,
   reset,
+  store,
   payload = {},
   response = {},
   reducer = () => {},
@@ -38,7 +40,7 @@ export default (namespace, {
         return {
           ...state,
           pending: true,
-          payload: fromJS({ ...state.payload.toJS(), ...payload }),
+          payload,
         }
       },
       [actionTypes[ActionTypes.SUCCESS]](state, response) {
@@ -66,19 +68,37 @@ export default (namespace, {
       },
     },
     effects: dispatch => ({
-      async [action](payload) {
+      async [action](payload = {}, state) {
+        let nextPayload = fromJS(payload)
+        if (store) {
+          nextPayload = fromJS({ ...state[namespace].payload.toJS(), ...payload })
+        }
         try {
           dispatch({
             type: actionTypes[ActionTypes.PENDING],
-            payload,
+            payload: nextPayload,
           })
 
-          const resp = await effect(payload)
+          const { data } = await effect(nextPayload.toJS())
 
-          dispatch({
-            type: actionTypes[ActionTypes.SUCCESS],
-            payload: resp,
-          })
+          if (data.code < 0) {
+            /* eslint-disable no-console */
+            console.log(data)
+            if (data.msg.length > 50) {
+              message.error('接口调用异常，请联系系统管理员')
+            } else {
+              message.error(data.msg)
+            }
+            dispatch({
+              type: actionTypes[ActionTypes.FAILURE],
+              payload: data.msg,
+            })
+          } else {
+            dispatch({
+              type: actionTypes[ActionTypes.SUCCESS],
+              payload: data,
+            })
+          }
         } catch (error) {
           dispatch({
             type: actionTypes[ActionTypes.FAILURE],

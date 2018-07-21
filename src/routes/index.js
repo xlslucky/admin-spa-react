@@ -8,6 +8,7 @@ export default [
     path: '/',
     exact: true,
     component: AsyncComponent(() => import('../pages/Home')),
+    // auth: ['AuthCode'],
   },
   {
     path: '/github',
@@ -20,6 +21,11 @@ export default [
     empty: true, // 空Layout
     public: true,
     component: AsyncComponent(() => import('../pages/Login')),
+  },
+  {
+    path: '/uc/updatepwd',
+    exact: true,
+    component: AsyncComponent(() => import('../pages/Login/UpdatePwd')),
   },
   ...setting,
   ...user,

@@ -3,10 +3,10 @@ import { message } from 'antd'
 import { Helmet } from 'react-helmet'
 
 export default class BaseComponent extends React.PureComponent {
-  whenFetched = (prevPropState, nextPropState) => new Promise((resolve, reject) => {
+  whenFetched = (prevPropState, nextPropState, showError) => new Promise((resolve, reject) => {
     if (prevPropState.pending && !nextPropState.pending) {
       if (nextPropState.error) {
-        message.error(nextPropState.error)
+        showError && message.error(nextPropState.error)
         reject(nextPropState.error)
       } else {
         resolve()
@@ -17,7 +17,7 @@ export default class BaseComponent extends React.PureComponent {
   renderTitle(title) {
     return (
       <Helmet>
-        <title>{title}</title>
+        <title>{title}-后台管理系统</title>
       </Helmet>
     )
   }

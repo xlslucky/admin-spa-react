@@ -1,15 +1,19 @@
 const axios = require('axios')
 const requestIP = require('request-ip')
 
-const api = process.env.REST_API || 'https://api.github.com'
+const api = process.env.REST_API
 
-module.exports = ({ req, method = 'GET', url, data = {} }) => {
+module.exports = ({ req, method = 'GET', url, data = {}, header = {} }) => {
   const uip = requestIP.getClientIp(req)
   const headers = {
     'content-type': 'application/json',
     'visit-ip': uip,
     'user-agent': req.headers['user-agent'],
-    token: req.headers['u-token'],
+    ...header,
+  }
+
+  if (req.headers['u-token']) {
+    headers.token = req.headers['u-token']
   }
 
   const realUrl = url ? (api + url) : (api + req.originalUrl.replace(/^\/api/, ''))
@@ -29,7 +33,11 @@ module.exports = ({ req, method = 'GET', url, data = {} }) => {
   return axios.request(options)
     .catch((err) => {
       console.log(`\n[No.${series}][${new Date()}]\n[API EXCEPTION]`)
-      console.log(err.toString())
-      return Promise.resolve({ errorCode: 500 })
+      console.log(`[No.${series}][Token] ${headers.token}`)
+      console.log(`[No.${series}] ${err.message}\n`)
+      const { response: { status = 500 } = {} } = err
+      return Promise.resolve({
+        data: { code: -2, status: status, msg: '接口调用异常，请联系系统管理员', error: err.message },
+      })
     })
 }

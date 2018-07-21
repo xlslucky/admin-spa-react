@@ -1,13 +1,13 @@
 // libs
 import React from 'react'
 import { connect } from 'react-redux'
-import { Form, Icon, Input, Button, Checkbox } from 'antd'
+import { Form, Icon, Input, Button, notification } from 'antd'
 
 // components
 import BaseComponent from '../../components/BaseComponent'
 
 // utils
-import { saveUser } from '../../utils/user'
+import { saveUser, saveAuth } from '../../utils/user'
 
 import style from './login.css'
 
@@ -27,9 +27,10 @@ export default class Login extends BaseComponent {
   componentDidUpdate(prevProps) {
     this.whenFetched(prevProps.loginState, this.props.loginState)
       .then(() => {
-        const { data = {} } = this.props.loginRes
+        const { data = {}, auths = [] } = this.props.loginRes
         const { query = {} } = this.props
         saveUser(data)
+        saveAuth(auths)
         window.location.replace(query.originalUrl || '/')
       })
   }
@@ -40,6 +41,13 @@ export default class Login extends BaseComponent {
 
   componentWillUnmount() {
     document.body.classList.remove(style['login-body'])
+  }
+
+  forget = () => {
+    notification.open({
+      message: '忘记密码？',
+      description: '请联系系统管理员修改密码',
+    })
   }
 
   handleSubmit = (e) => {
@@ -59,35 +67,29 @@ export default class Login extends BaseComponent {
         <Form onSubmit={this.handleSubmit} className={style['login-form']}>
           <FormItem>
             {getFieldDecorator('username', {
-              rules: [{ required: true, message: 'Please input your username!' }],
+              rules: [{ required: true, message: '请输入登录用户名!' }],
             })(
               <Input
                 style={{ height: 40 }}
                 prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                placeholder="Username"
+                placeholder="用户名"
               />
             )}
           </FormItem>
           <FormItem>
             {getFieldDecorator('password', {
-              rules: [{ required: true, message: 'Please input your Password!' }],
+              rules: [{ required: true, message: '请输入登录密码!' }],
             })(
               <Input
                 style={{ height: 40 }}
                 prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                 type="password"
-                placeholder="Password"
+                placeholder="密码"
               />
             )}
           </FormItem>
           <FormItem>
-            {getFieldDecorator('remember', {
-              valuePropName: 'checked',
-              initialValue: true,
-            })(
-              <Checkbox>Remember me</Checkbox>
-            )}
-            <a className={style['login-form-forgot']} href="">Forgot password</a>
+            <a className={style['login-form-forgot']} onClick={this.forget}>忘记密码？</a>
             <Button
               type="primary"
               htmlType="submit"
@@ -95,7 +97,7 @@ export default class Login extends BaseComponent {
               disabled={pending}
               loading={pending}
             >
-              Log in
+              登 录
             </Button>
           </FormItem>
         </Form>

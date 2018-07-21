@@ -26,7 +26,7 @@ export const login = initModel('login', {
   response: {
     data: undefined,
   },
-  reducer: response => ({ data: response.data }),
+  reducer: response => response,
   effect: async ({ username, password, remember } = {}) => {
     if (!username || !password) {
       throw new Error('400 Bad Request.')
@@ -37,10 +37,13 @@ export const login = initModel('login', {
     }
     return {
       data: {
-        name: '管理员',
-        uid: 'admin',
-        avatar: 'https://avatars3.githubusercontent.com/u/3406222?s=40&v=4',
-        token: 'XXXX-YYYY-ZZZZ-HAHA',
+        data: {
+          name: '管理员',
+          uid: 'admin',
+          avatar: 'https://avatars3.githubusercontent.com/u/3406222?s=40&v=4',
+          token: 'XXXX-YYYY-ZZZZ-HAHA',
+        },
+        auths: [],
       },
     }
   },

@@ -6,6 +6,7 @@ const logger = require('morgan')
 const cors = require('cors')
 
 const indexRouter = require('./routes')
+const fileio = require('./routes/fileio')
 
 const app = express()
 
@@ -25,8 +26,9 @@ if (env === 'development') {
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, '../build')))
 
+app.use('/fileio', fileio)
 app.use('/', indexRouter)
 
 // catch 404 and forward to error handler

@@ -1,33 +1,83 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { Layout, Menu, Icon, BackTop, Avatar, Dropdown } from 'antd'
+
+import BaseComponent from '../../components/BaseComponent'
 
 import { getUser, clearUser } from '../../utils/user'
 
 import style from './style.css'
 
 const { Header, Sider, Content } = Layout
+const defaultAvatar = 'https://s1.ax1x.com/2018/07/07/PeZcQS.png'
 
+@withRouter
 @connect(
   state => ({
     menuRes: state.menu.response.toJS(),
+    menuState: state.menu,
   }),
   dispatch => ({
     getMenu: dispatch.menu.getMenu,
   })
 )
-export default class PageLayout extends React.PureComponent {
+export default class PageLayout extends BaseComponent {
   state = {
     collapsed: false,
     bodyHeight: 400,
+    paths: [],
+    openKeys: [],
+    menuloaded: false,
+    showMenu: false,
   }
 
   componentDidMount() {
-    this.props.getMenu()
+    if (!this.props.menuRes.loaded) {
+      this.props.getMenu()
+    } else {
+      this.setState({ menuloaded: true })
+      this.findMappedMenu(this.props.menuRes.data || [])
+    }
     this.setState({
       bodyHeight: window.innerHeight - 112,
     })
+  }
+
+  componentDidUpdate(prevProps) {
+    this.whenFetched(prevProps.menuState, this.props.menuState)
+      .then(() => {
+        const { data: menu = [] } = this.props.menuRes
+        this.findMappedMenu(menu)
+        this.setState({ menuloaded: true })
+      }, () => {
+        this.setState({ menuloaded: true })
+      })
+  }
+
+  findMappedMenu = (menu) => {
+    const { pathname = '/' } = this.props.location
+
+    const mapped = pathname.match(/\/\w*/g)
+      .reduce((result, pathnode) => ([...result, `${result[result.length - 1]}${pathnode}`]), [''])
+      .slice(1)
+    const paths = []
+    const opened = []
+    menu.reduce((arr, sub) => {
+      const contain = mapped.includes(sub.url)
+      if (contain) {
+        arr.push(`${sub.id}`)
+      }
+      if (sub.children) {
+        const [first] = sub.children.filter(item => mapped.includes(item.url))
+        if (first) {
+          opened.push(`${sub.id}`)
+          arr.push(`${first.id}`)
+        }
+      }
+      return arr
+    }, paths)
+    this.setState({ paths, openKeys: opened, showMenu: true })
   }
 
   toggle = () => {
@@ -44,7 +94,7 @@ export default class PageLayout extends React.PureComponent {
   renderMenuItem(menu) {
     if (menu.url) {
       return (
-        <Menu.Item key={menu.name}>
+        <Menu.Item key={`${menu.id}`}>
           <Link to={menu.url}>
             <Icon type={menu.icon || 'compass'} />
             <span>{menu.name}</span>
@@ -53,9 +103,11 @@ export default class PageLayout extends React.PureComponent {
       )
     }
     return (
-      <Menu.Item key={menu.name}>
-        <Icon type={menu.icon || 'compass'} />
-        <span>{menu.name}</span>
+      <Menu.Item key={`${menu.id}`}>
+        <a>
+          <Icon type={menu.icon || 'compass'} />
+          <span>{menu.name}</span>
+        </a>
       </Menu.Item>
     )
   }
@@ -64,8 +116,8 @@ export default class PageLayout extends React.PureComponent {
     if (menu.children && menu.children.length) {
       return (
         <Menu.SubMenu
-          key={menu.name}
-          title={<span><Icon type="mail" />{menu.name}</span>}
+          key={`${menu.id}`}
+          title={<React.Fragment><Icon type={menu.icon || 'compass'} /><span>{menu.name}</span></React.Fragment>}
         >
           {menu.children.map(this.renderMenuItem)}
         </Menu.SubMenu>
@@ -77,8 +129,9 @@ export default class PageLayout extends React.PureComponent {
 
   render() {
     const { data: menu = [] } = this.props.menuRes
-    const [first = {}] = menu
     const user = getUser()
+    /* eslint-disable no-console */
+    console.log(menu, user)
 
     return (
       <Layout>
@@ -88,11 +141,19 @@ export default class PageLayout extends React.PureComponent {
           collapsed={this.state.collapsed}
         >
           <div className={style.logo}>后台管理系统</div>
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={[first.name]}>
-            {
-              menu.map(this.renderMenu)
-            }
-          </Menu>
+          {
+            this.state.showMenu &&
+            <Menu
+              theme="dark"
+              mode="inline"
+              selectedKeys={this.state.paths}
+              defaultOpenKeys={this.state.openKeys}
+            >
+              {
+                menu.map(this.renderMenu)
+              }
+            </Menu>
+          }
         </Sider>
         <Layout>
           <Header className={style.headerbar}>
@@ -101,18 +162,23 @@ export default class PageLayout extends React.PureComponent {
               type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
               onClick={this.toggle}
             />
-
             <Dropdown
               placement="bottomRight"
               overlay={(
                 <Menu>
                   <Menu.Item>
-                    <a onClick={this.doLogout}><Icon type="logout" /> Log out</a>
+                    <Link to="/uc/updatepwd"><Icon type="hdd" /> 修改密码</Link>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <a onClick={this.doLogout}><Icon type="logout" /> 退出登录</a>
                   </Menu.Item>
                 </Menu>
               )}
             >
-              <Avatar size="large" src={user.avatar} />
+              <span>
+                {user.name}&nbsp;
+                <Avatar size="large" src={user.avatar || defaultAvatar} />
+              </span>
             </Dropdown>
           </Header>
           <Content className={style['page-content']} style={{ minHeight: this.state.bodyHeight }}>

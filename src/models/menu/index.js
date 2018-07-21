@@ -8,7 +8,7 @@ export const menu = initModel('menu', {
   response: {
     data: undefined,
   },
-  reducer: response => ({ data: response.data }),
+  reducer: response => ({ data: response }),
   effect: async () => {
     await delay()
     return {

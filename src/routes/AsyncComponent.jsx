@@ -1,15 +1,28 @@
 import React from 'react'
 import Loadable from 'react-loadable'
+import CoverPage from '../components/CoverPage'
+import qs from 'qs'
 
 import Layout from '../pages/Layout'
+import Forbidden from '../pages/Forbidden'
 
 const LoadingComponent = ({ isLoading, error }) => {
   if (isLoading) {
-    return <div>loading...</div>
+    return <CoverPage />
   } else if (error) {
-    return <div>Sorry, there was a problem loading the page.</div>
+    return <CoverPage type="frown-o">页面加载出错，请重试</CoverPage>
   }
   return null
+}
+
+const hasAuth = (myAuths = [], auths = []) => {
+  let matched = false
+  auths.forEach((auth) => {
+    if (myAuths.includes(auth)) {
+      matched = true
+    }
+  })
+  return matched
 }
 
 export default loader => Loadable({
@@ -17,7 +30,7 @@ export default loader => Loadable({
   loading: LoadingComponent,
   render(loaded, props) {
     const Component = loaded.default
-    const { public: pub, empty } = props.route
+    const { public: pub, empty, auth } = props.route
     if (!pub && !props.user) {
       const originalUrl = encodeURIComponent(`${props.location.pathname}${props.location.search}`)
       return window.location.replace(`/login?originalUrl=${originalUrl}`)
@@ -25,6 +38,10 @@ export default loader => Loadable({
     if (empty) {
       return <Component {...props} />
     }
-    return <Layout><Component {...props} /></Layout>
+    if (auth && auth.length && !hasAuth(props.auths, auth)) {
+      return <Forbidden />
+    }
+
+    return <Layout><Component {...props} query={qs.parse(window.location.search.replace(/^\?/, ''))} /></Layout>
   },
 })
